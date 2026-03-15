@@ -1,0 +1,32 @@
+name: MoonGames PM Otomatik Rapor
+
+on:
+  schedule:
+    - cron: '0 8 * * *'   # Her sabah 08:00 UTC (11:00 TR)
+    - cron: '0 14 * * *'  # Her öğle 14:00 UTC (17:00 TR)
+  workflow_dispatch:       # Manuel de çalıştırabilirsin
+
+jobs:
+  pm-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Paketleri Yükle
+        run: pip install anthropic
+
+      - name: PM Otomatik Rapor Üret
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python pm_auto.py
+
+      - name: Raporu Kaydet
+        uses: actions/upload-artifact@v3
+        with:
+          name: pm-rapor-${{ github.run_number }}
+          path: rapor_*.txt
