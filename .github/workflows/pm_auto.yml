@@ -10,10 +10,10 @@ jobs:
   pm-report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Python Kur
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -23,7 +23,7 @@ jobs:
         run: python pm_auto.py
 
       - name: Raporu Kaydet
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pm-rapor-${{ github.run_number }}
           path: rapor_*.txt
